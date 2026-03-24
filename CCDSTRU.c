@@ -1,15 +1,55 @@
 #include <stdio.h>
 
-void NextPlayerMove(int grid[][3]){
-	printf("%d",grid[0][0]);
+void Expand(int x,int y,int grid[][3],int go,int R[],int B[],int S[],int T[]){
+	// not sure how to add an array to an array, I'll stop here
+}
+
+void Update(int x,int y,int grid[][3],int go,int *good,int R[],int B[],int S[],int T[]){
+	*good = 0;
+	if(pos not in S){ // change
+		// add pos to S
+		*good = !*good;
+	}
+	if(*good&&pos in S&&pos not in T){ // change
+		// add pos to T
+		Expand(x,y,grid,go,R,B,S,T);
+	}
+}
+
+void NextPlayerMove(int grid[][3],int x,int y,int *go,int *start,int *over,int *val,int *good,int R[],int B[],int S[],int T[]){
+	if(!*over){ // if game is not over
+		if(*start){ // if start is true
+			if(*go){ // player R turn
+				// add grid[x][y] to R
+				// add grid[x][y] to S
+				good = 1;
+			}else{ // player B turn
+				// add grid[x][y] to B
+				// add grid[x][y] to S
+				good = 1;
+			}
+			if((*go&&pos in R)||(!*go&&pos in B){ // replace this
+				int tempGo = *go;
+				int tempGood = *good;
+				Update(x,y,grid,tempGo,&tempGood,R,B,S,T);
+				*good = tempGood;
+			}
+		}
+	}
+	if(*start&&#elements in R is 1&&#elements in B is 1){ // this too
+		*start = 0;
+	}
+	if(!*over&&good){
+		*good = !*good;
+		*go = !*go;
+		*val = *val+1;
+	}
 }
 
 /*
-	good doesn't do anything, just a flag that's there I guess
-	if go is TRUE, it is R turn, if go is FALSE, it is B turn
-	start basically means if the game has started already
-	over controls if the game ends or not
-	val determines the number of turns players may do
+	TO-DO:
+	try creating a manual check that makes the grid act like a strict grid
+	e.g. grid[0][3] should theoretically be out of bounds, but it goes to the next row and returns 4
 */
 int main(){
 	int good,go,start,over,found,val;
@@ -29,6 +69,9 @@ int main(){
 	start = 1;
 	found = 0;
 	val = 0;
-	NextPlayerMove(grid);
+	over = 0;
+	printf("%d\n",R[0]);
+	NextPlayerMove(grid,0,0,&go,&start,&over,&val,&good,R,B,S,T);
+	printf("%d\n",R[0]);
 	
 }
