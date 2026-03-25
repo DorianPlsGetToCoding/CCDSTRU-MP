@@ -80,3 +80,13 @@ add(int key, int aData[], int * pElem){
 	aData[*pElem] = key;
 	*pElem = *pElem + 1;
 }
+
+/* 
+	For testing purposes
+*/
+void
+PrintArray(int A[],int pElem){
+	for(int i=0;i<pElem;i++){
+		printf("%d ",A[i]);
+	}
+}
