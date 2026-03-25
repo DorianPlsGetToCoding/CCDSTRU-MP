@@ -5,11 +5,110 @@
 	Description goes here
 */
 void
-Update(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+Remove(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+/*	go -> (R = R - {pos})
+	!go -> (R = R - {pos})
+	S = S - {pos}
+	T = T - {pos}
+*/
+	int temp = grid[row][col]; // value of the coordinate to be updated
+	if(*go){
+		del(temp,R,(*rSize));
+	}
+	else if(!(*go)){
+		del(temp,B,(*bSize));
+	}
 	
+	del(temp,S,(*sSize));
+	del(temp,T,(*tSize));
 }
 
 /*
+	Description goes here
+*/
+
+void
+Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+	int found = 0;
+	int x = row, y = col;
+	int temp = grid[row][col]; // value of the coordinate to be updated
+	if(*go&&Search(temp,B,(*bSize))!=-1){
+		del(temp,B,(*bSize));
+		found = 1;
+	}
+	else if(*go&&Search(temp,R,(*rSize))!=-1){
+		found = 1;
+	}
+	else if(*go&&Search(temp,R,(*rSize))==-1){
+		int tempR = *rSize; // adds the tile to R
+		add(temp,R,&tempR);
+		*rSize = tempR;
+	}
+	
+	else if(!(*go)&&Search(temp,R,(*rSize))!=-1){
+		del(temp,R,(*rSize));
+		found = 1;
+	}
+	else if(!(*go)&&Search(temp,B,(*bSize))!=-1){
+		found = 1;
+	}
+	else if(!(*go)&&Search(temp,B,(*bSize))==-1){
+		int tempB = *bSize; // adds the tile to B
+		add(temp,B,&tempB);
+		*bSize = tempB;
+	}
+	
+	if(found&&Search(temp,S,(*sSize))==-1){
+		int tempS = *sSize; // adds the tile to S
+		add(temp,S,&tempS);
+		*sSize = tempS;
+		found = 0;
+	}
+	else if(found&&Search(temp,S,(*sSize))!=-1&&Search(temp,T,(*tSize))==-1){
+		int tempT = *tSize; // adds the tile to T
+		add(temp,T,&tempT);
+		*tSize = tempT;
+		//Expand(x,y,good,go,start,val,over,R,B,S,T,rSize,bSize,sSize,tSize,grid); //I don't have to pass the '&' since the address is already passed (although x and y di ako masyado sure)
+	}
+}
+
+/*
+	Description goes here
+*/
+void
+Update(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+/*	NOTE: UPDATE DOES NOT WORK I'M TRYING TO FIGURE THIS OUT, SO FAR I JUST NEED THIS TO EXIST SO I CAN PASS IT TO REPLACE --Magus 
+
+	(a,b) = pos
+	u = (a - 1, b)
+	d = (a + 1, b)
+	k = (a, b - 1)
+	r = (a, b + 1)
+	Remove(pos)
+	(go) -> Replace(u)
+	(!go) -> Replace(d)
+	Replace(k)
+	Replace(r) */
+	
+	int u,d,k,r;
+	u = row - 1;
+	d = row + 1;
+	k = col - 1;
+	r = col + 1;
+	//remove(row, col, )
+	if(*go){
+		//replace (u)
+	}
+	else if(!(*go)){
+		//Replace(d)
+	}
+	//Replace(x,y, good, go, start, val, over,R,B,S,T,rSize,bSize,sSize,tSize,grid);
+	//Replace(x,y, good, go, start, val, over,R,B,S,T,rSize,bSize,sSize,tSize,grid);
+}
+
+/*
+	This function handles the input given by a player and validates whether it is a valid input and functions accordingly
+*/
 	This function handles the input given by a player and validates whether it is a valid input and functions accordingly
 */
 void
