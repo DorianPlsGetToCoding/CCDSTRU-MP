@@ -2,30 +2,33 @@
 #include "helperFunctions.h"
 
 /*
-	Description goes here
+	Deletes a value from multiple arrays
 */
-/*
 void
-Remove(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
-	int temp = grid[row][col]; // value of the coordinate to be updated
-	if(*go){
-		del(temp,R,(*rSize));
+Remove(int pos,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize){
+	if(go){ // if it is Player R's turn, remove pos from R[]
+		int tempR = *rSize;
+		del(pos,R,&tempR);
+		*rSize = tempR;
+	}else{ // if it is Player B's turn, remove pos from B[]
+		int tempB = *bSize;
+		del(pos,B,&tempB);
+		*bSize = tempB;
 	}
-	else if(!(*go)){
-		del(temp,B,(*bSize));
-	}
->>>>>>> Stashed changes
+	int tempS = *sSize; // remove pos from S[]
+	del(pos,S,&tempS);
+	*sSize = tempS;
 	
+	int tempS = *sSize; // remove pos from T[]
+	del(pos,S,&tempS);
+	*sSize = tempS;
 }
-*/
 
 /*
-	Description goes here
+	Replacement
 */
-
-/*
 void
-Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+Replace(){
 	int found = 0;
 	int x = row, y = col;
 	int temp = grid[row][col]; // value of the coordinate to be updated
@@ -41,8 +44,6 @@ Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],
 		add(temp,R,&tempR);
 		*rSize = tempR;
 	}
->>>>>>> Stashed changes
-	
 }
 
 /*
@@ -58,10 +59,40 @@ Expand(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *bS
 		7 8 9
 	*/
 	int u = -1; // this is the tile to the left of pos
+	int leftCol = col-1;
+	if(leftCol<3&&leftCol>=0) u = grid[row][leftCol];
 	int d = -1; // this is the tile to the right of pos
+	int rightCol = col+1;
+	if(rightCol<3&&rightCol>=0) d = grid[row][rightCol];
 	int k = -1; // this is the tile below pos
+	int downRow = row-1;
+	if(downRow<3&&downRow>=0) k = grid[downRow][col];
 	int r = -1; // this is the tile above pos
-	printf("ITS EXPANDING TIME");
+	int upRow = row+1;
+	if(upRow<3&&upRow>=0) r = grid[upRow][col];
+	
+	int tempR = *rSize; // removes pos from all arrays
+	int tempB = *bSize;
+	int tempS = *sSize;
+	int tempT = *tSize;
+	Remove(grid[row][col],go,R,B,S,T,&tempR,&tempB,&tempS,&tempT);
+	*rSize = tempR;
+	*bSize = tempB;
+	*sSize = tempS;
+	*tSize = tempT;
+	
+	if(go&&u!=-1){
+		// Replace u
+	}
+	if(!go&&d!=-1){
+		// Replace d
+	}
+	if(k!=-1){
+		// Replace k
+	}
+	if(r!=-1){
+		// Replace r
+	}
 }
 
 /*
