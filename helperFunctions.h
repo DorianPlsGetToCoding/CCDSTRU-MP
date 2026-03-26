@@ -82,7 +82,7 @@ add(int key, int aData[], int * pElem){
 }
 
 /* 
-	For testing purposes
+	This is only here for testing purposes
 */
 void
 PrintArray(int A[],int pElem){
@@ -90,4 +90,21 @@ PrintArray(int A[],int pElem){
 		printf("%d ",A[i]);
 	}
 	printf("\n");
+}
+
+/*
+	This function empties an array (removes all values)
+	
+	aData[] - the array removed from
+	*pElem - the number of elements in aData[]
+*/
+void
+EmptyArray(int aData[],int * pElem){
+	int count = *pElem;
+	while(count>0){
+		for(int i=1;i<=9;i++){
+			del(i,aData,&count);
+		}
+	}
+	*pElem = count;
 }
