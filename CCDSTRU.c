@@ -44,19 +44,27 @@ Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],
 >>>>>>> Stashed changes
 	
 }
+
 /*
 	Description goes here
 */
 void
-Expand(int row,int col,int go,int R[],int B[],int S[],int T[]){
-	int u = -1;
-	int d = -1;
-	int k = -1;
-	int r = -1;
+Expand(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+	/*
+		NOTE:
+		This is where it gets a bit confusing, because grid[row][col] is NOT like (x,y), rather it's more of an (y,x), keep that in mind
+		1 2 3
+		4 5 6
+		7 8 9
+	*/
+	int u = -1; // this is the tile to the left of pos
+	int d = -1; // this is the tile to the right of pos
+	int k = -1; // this is the tile below pos
+	int r = -1; // this is the tile above pos
+	printf("ITS EXPANDING TIME");
 }
 
 /*
-	Description goes here
 	Precondition: grid[row][col] should be an element of either R[] or B[]
 */
 void
@@ -72,11 +80,18 @@ Update(int row,int col,int *good,int go,int R[],int B[],int S[],int T[],int *rSi
 		*good = 1;
 	}
 	if((*good)&&(Search(temp,S,(*sSize))!=-1)&&(Search(temp,T,(*tSize))==-1)){ // now that the conditions above are met, check if the tile isn't in T[] to proceed with Expand()
-		printf("\nIM EXPANDING\n");
-		int tempT = *tSize;
+		int tempT = *tSize; // adds the tile to T[]
 		add(temp,T,&tempT);
 		*tSize = tempT;
-		//Expand();
+		int tempR = *rSize; // runs Expand()
+		int tempB = *bSize;
+		int tempS = *sSize;
+		int tempT1 = *tSize;
+		Expand(row,col,go,R,B,S,T,&tempR,&tempB,&tempS,&tempT1,grid);
+		*rSize = tempR;
+		*bSize = tempB;
+		*sSize = tempS;
+		*tSize = tempT;
 	}
 }
 
@@ -129,16 +144,16 @@ NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,i
 	}
 }
 
+/*
+	NOTES:
+	1. the found variable (boolean) is only used in the Replace function, no need to define it here
+	2. the game ends if and only if:
+		- Only 3 free tiles remain on the board
+		- 20 or more turns have passed
+		- if start is false and the board ONLY contains Player R/Player B tiles
+*/
 int
 main(){
-	/*
-		NOTES:
-		1. the found variable (boolean) is only used in the Replace function, no need to define it here
-		2. the game ends if and only if:
-			- Only 3 free tiles remain on the board
-			- 20 or more turns have passed
-			- if start is false and the board ONLY contains Player R/Player B tiles
-	*/
 	int good = 0; // boolean value, used in determining whether it is okay to proceed to the next player's turn and repeat a turn if criteria isn't met
 	int go = 1; // boolean value, determines player turn (Player R if true, and Player B if false)
 	int start = 1; // boolean value, true only at the start of the game and is false when both players place down their first tiles
@@ -181,7 +196,6 @@ main(){
 			scanf("%d",&y);
 		}while(y<0||y>2);
 		NextPlayerMove(x,y,&good,&go,&start,&val,&over,R,B,S,T,&rSize,&bSize,&sSize,&tSize,grid);
-		//DisplayBoard(R,B,grid);
 	}
 	//GameOver();
 }
