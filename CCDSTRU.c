@@ -4,13 +4,9 @@
 /*
 	Description goes here
 */
+/*
 void
 Remove(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
-/*	go -> (R = R - {pos})
-	!go -> (R = R - {pos})
-	S = S - {pos}
-	T = T - {pos}
-*/
 	int temp = grid[row][col]; // value of the coordinate to be updated
 	if(*go){
 		del(temp,R,(*rSize));
@@ -18,15 +14,16 @@ Remove(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],i
 	else if(!(*go)){
 		del(temp,B,(*bSize));
 	}
+>>>>>>> Stashed changes
 	
-	del(temp,S,(*sSize));
-	del(temp,T,(*tSize));
 }
+*/
 
 /*
 	Description goes here
 */
 
+/*
 void
 Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
 	int found = 0;
@@ -44,78 +41,52 @@ Replace(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],
 		add(temp,R,&tempR);
 		*rSize = tempR;
 	}
+>>>>>>> Stashed changes
 	
-	else if(!(*go)&&Search(temp,R,(*rSize))!=-1){
-		del(temp,R,(*rSize));
-		found = 1;
-	}
-	else if(!(*go)&&Search(temp,B,(*bSize))!=-1){
-		found = 1;
-	}
-	else if(!(*go)&&Search(temp,B,(*bSize))==-1){
-		int tempB = *bSize; // adds the tile to B
-		add(temp,B,&tempB);
-		*bSize = tempB;
-	}
-	
-	if(found&&Search(temp,S,(*sSize))==-1){
-		int tempS = *sSize; // adds the tile to S
-		add(temp,S,&tempS);
-		*sSize = tempS;
-		found = 0;
-	}
-	else if(found&&Search(temp,S,(*sSize))!=-1&&Search(temp,T,(*tSize))==-1){
-		int tempT = *tSize; // adds the tile to T
-		add(temp,T,&tempT);
-		*tSize = tempT;
-		//Expand(x,y,good,go,start,val,over,R,B,S,T,rSize,bSize,sSize,tSize,grid); //I don't have to pass the '&' since the address is already passed (although x and y di ako masyado sure)
-	}
 }
-
 /*
 	Description goes here
 */
 void
-Update(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
-/*	NOTE: UPDATE DOES NOT WORK I'M TRYING TO FIGURE THIS OUT, SO FAR I JUST NEED THIS TO EXIST SO I CAN PASS IT TO REPLACE --Magus 
-
-	(a,b) = pos
-	u = (a - 1, b)
-	d = (a + 1, b)
-	k = (a, b - 1)
-	r = (a, b + 1)
-	Remove(pos)
-	(go) -> Replace(u)
-	(!go) -> Replace(d)
-	Replace(k)
-	Replace(r) */
-	
-	int u,d,k,r;
-	u = row - 1;
-	d = row + 1;
-	k = col - 1;
-	r = col + 1;
-	//remove(row, col, )
-	if(*go){
-		//replace (u)
-	}
-	else if(!(*go)){
-		//Replace(d)
-	}
-	//Replace(x,y, good, go, start, val, over,R,B,S,T,rSize,bSize,sSize,tSize,grid);
-	//Replace(x,y, good, go, start, val, over,R,B,S,T,rSize,bSize,sSize,tSize,grid);
+Expand(int row,int col,int go,int R[],int B[],int S[],int T[]){
+	int u = -1;
+	int d = -1;
+	int k = -1;
+	int r = -1;
 }
 
 /*
-	This function handles the input given by a player and validates whether it is a valid input and functions accordingly
+	Description goes here
+	Precondition: grid[row][col] should be an element of either R[] or B[]
 */
+void
+Update(int row,int col,int *good,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
+	int temp = grid[row][col];
+	*good = 0;
+	if(Search(temp,S,(*sSize))==-1){ // if the tile isn't in S[], this will add it to S[] so Expand() can function as intended
+		int tempS = *sSize;
+		add(temp,S,&tempS);
+		*sSize = tempS;
+		*good = 1;
+	}else{ // if the tile is already in S[], then Expand() can proceed as intended
+		*good = 1;
+	}
+	if((*good)&&(Search(temp,S,(*sSize))!=-1)&&(Search(temp,T,(*tSize))==-1)){ // now that the conditions above are met, check if the tile isn't in T[] to proceed with Expand()
+		printf("\nIM EXPANDING\n");
+		int tempT = *tSize;
+		add(temp,T,&tempT);
+		*tSize = tempT;
+		//Expand();
+	}
+}
+
+/*
 	This function handles the input given by a player and validates whether it is a valid input and functions accordingly
 */
 void
 NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]){
 	int temp = grid[row][col]; // value of the tile in the grid using pos
-	if(!(*over)&&(*go)&&Search(temp,B,(*bSize))==-1){ // Player R's initial turn, with additional check to make sure they don't place same tile as B
-		printf("R's turn\n");
+	if(!(*over)&&(*go)&&Search(temp,B,(*bSize))==-1&&(*start)){ // Player R's initial turn, with additional check to make sure they don't place same tile as B
 		int tempR = *rSize; // adds the tile to R
 		add(temp,R,&tempR);
 		*rSize = tempR;
@@ -123,8 +94,7 @@ NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,i
 		add(temp,S,&tempS);
 		*sSize = tempS;
 		*good = 1; // good being true means that the other player can proceed with their turn
-	}else if(!(*over)&&!(*go)&&Search(temp,R,(*rSize))==-1){ // Player B's initial turn, with additional check to make sure they don't place same tile as R
-		printf("B's turn\n");
+	}else if(!(*over)&&!(*go)&&Search(temp,R,(*rSize))==-1&&(*start)){ // Player B's initial turn, with additional check to make sure they don't place same tile as R
 		int tempB = *bSize; // adds the tile to B
 		add(temp,B,&tempB);
 		*bSize = tempB;
@@ -136,7 +106,17 @@ NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,i
 	int validR = (*go)&&(Search(temp,R,(*rSize))!=-1); // for this to be true, it must be player R's turn and the tile from the given position is theirs
 	int validB = !(*go)&&(Search(temp,B,(*bSize))!=-1);
 	if(!(*over)&&!(*start)&&(validR||validB)){ // this checks if the tile in the given position is actually owned by the player and if it is said player's turn
-		// this is where update will go
+		int tempGood = *good;
+		int tempR = *rSize;
+		int tempB = *bSize;
+		int tempS = *sSize;
+		int tempT = *tSize;
+		Update(row,col,&tempGood,(*go),R,B,S,T,&tempR,&tempB,&tempS,&tempT,grid);
+		*good = tempGood;
+		*rSize = tempR;
+		*bSize = tempB;
+		*sSize = tempS;
+		*tSize = tempT;
 		*good = 1;
 	}
 	if((*start)&&(*rSize)==1&&(*bSize)==1){ // this checks for if both players have already placed their initial tiles
@@ -148,21 +128,6 @@ NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,i
 		*val = *val + 1; // increments the amount of (valid) turns that have been made
 	}
 }
-
-/*
-	Description goes here
-	
-*/
-void
-DisplayBoard(int R[],int B[],int grid[][3]){
-	for(int i=0;i<3;i++){
-		for(int j=0;j<3;j++){
-			printf("%d ",grid[i][j]);
-		}
-		printf("\n");
-	}
-}
-
 
 int
 main(){
@@ -197,7 +162,16 @@ main(){
 	
 	int x=0,y=0;
 	while(!over){
-		printf("%d\n",go);
+		printf("Current Player Turn: %d\n",go);
+		printf("Start: %d\n",start);
+		printf("R: ");
+		PrintArray(R,rSize);
+		printf("B: ");
+		PrintArray(B,bSize);
+		printf("S: ");
+		PrintArray(S,sSize);
+		printf("T: ");
+		PrintArray(T,tSize);
 		do{
 			printf("\nx: ");
 			scanf("%d",&x);
@@ -209,4 +183,5 @@ main(){
 		NextPlayerMove(x,y,&good,&go,&start,&val,&over,R,B,S,T,&rSize,&bSize,&sSize,&tSize,grid);
 		//DisplayBoard(R,B,grid);
 	}
+	//GameOver();
 }
