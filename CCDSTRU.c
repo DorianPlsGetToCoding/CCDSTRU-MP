@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "helperFunctions.h"
 
-void Expand(); // forward declaration of Expand()
+void Expand(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]); // forward declaration of Expand()
 
 /*
 	Deletes a value from multiple arrays
