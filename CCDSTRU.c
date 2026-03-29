@@ -417,7 +417,10 @@ void
 MenuDisplay(int *exitProgram,int *over){
 	int temp = 0; // temporary value that holds input
 	printf("--- THE AMAZING DIGITAL INFECTION GAME ---\n");
-	printf("Hi there its me TEST CAINE. I will probably be replaced by an actual description, so yeah.\n");
+	printf("Hello there, this is THE AMAZING DIGITAL INFECTION GAME!\n");
+	printf("The rules are simple, two players must place an initial\n
+		tile on the board and players can only place tiles ON THEIR\n
+		tiles/, last man standing WINS");
 	printf("[1] - Play Game\n");
 	printf("[2] - Exit Program\n");
 	do{
