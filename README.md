@@ -2,7 +2,7 @@ THE AMAZING DIGITAL INFECTION GAME<br>
 A game where two players R and B have to occupy as much of a 3x3 grid as possible to win!<br>
 How to play:<br>
 1.) Each player places down a tile anywhere on the board (turn 0). They may place their tile in the same position as another player's.<br>
-    (not recommended, as this may lead to a fast loss)<br>
+	(not recommended, as this may lead to a fast loss)<br>
 2.) After each player has placed down a tile, the game begins. During the game, each player may only place on positions occupied by tiles they own.<br>
     (empty tiles and tiles owned by the other player may not be placed on)<br>
 3.) Whenever a valid move is played, the original tile splits into 3 tiles that occupy 3 adjacent spaces above, below, to the left, and to the right of the original<br>
