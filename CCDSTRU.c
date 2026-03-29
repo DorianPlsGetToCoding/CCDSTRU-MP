@@ -345,7 +345,7 @@ GameState(int rSize,int bSize,int val,int start,int *over){
 			2. 20 or more turns have passed
 			3. the game is ongoing and only R[] or B[] tiles remain
 	*/
-	if(F||val>=20||!start&&domination) *over = 1;	
+	if(F||val>=20||!(start&&domination)) *over = 1;	
 }
 
 /*
@@ -479,9 +479,9 @@ main(){
 	int tSize = 0; // the current number of elements in T[]
 	
 	int grid[3][3] = { // a read-only array that represents the playing field
-		1,2,3,
-		4,5,6,
-		7,8,9,
+		{1,2,3},
+		{4,5,6},
+		{7,8,9},
 	};
 	
 	int x=0,y=0; // integer values that hold player inputs
