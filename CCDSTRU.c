@@ -1,8 +1,8 @@
 /*
+	Machine Project by:
 	Anika Lumbania
 	Prinz Lim
 	Magus Bautista
-	
 */
 #include <stdio.h>
 #include "helperFunctions.h"
@@ -10,19 +10,18 @@
 void Expand(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize,int grid[][3]); // forward declaration of Expand()
 
 /*
-	Deletes a value from multiple arrays
+	This function deletes a tile value from multiple arrays before the Expand() function infects 3 adjacent tiles.
 	
-	pos - the tile
+	pos - the tile value
 	go - determines the player turns
-	R[] - the array of tiles claimed by Player R
-	B[] - the array of tiles claimed by Player B
-	S[] - the array of tiles claimed by any player
-	T[] - an array that holds tiles for the cascading spread effect
+	R[] - an array of tiles claimed by Player R
+	B[] - an array of tiles claimed by Player B
+	S[] - an array of tiles claimed by any player
+	T[] - an array that holds tiles that have exploded to prevent an infinite infection
 	*rSize - the number of elements in R[]
 	*bSize - the number of elements in B[]
 	*sSize - the number of elements in S[]
 	*tSize - the number of elements in T[]
-	grid[][3] - the board
 */
 void
 Remove(int pos,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int *sSize,int *tSize){
@@ -45,7 +44,7 @@ Remove(int pos,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int 
 }
 
 /*
-	This function replaces unclaimed tiles with claimed tiles or spreads tiles if the touched tile is claimed not sure how to say it yet
+	This function handles the infection function of the game. If the tile infects other tiles, those tiles will also explode and infect more tiles.
 	
 	row - the row value inputted by a player
 	col - the column value inputted by a player
@@ -53,7 +52,7 @@ Remove(int pos,int go,int R[],int B[],int S[],int T[],int *rSize,int *bSize,int 
 	R[] - the array of tiles claimed by Player R
 	B[] - the array of tiles claimed by Player B
 	S[] - the array of tiles claimed by any player
-	T[] - an array that holds tiles for the cascading spread effect
+	T[] - an array that holds tiles that have exploded to prevent an infinite infection
 	*rSize - the number of elements in R[]
 	*bSize - the number of elements in B[]
 	*sSize - the number of elements in S[]
@@ -121,7 +120,8 @@ Replace(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *b
 }
 	
 /*
-	This function handles tilespreading
+	This function handles the exploding effect of the tiles. If a tile explodes, it is destroyed and infects 3 adjacent tiles, and the Replace() function is ran, checking if these
+	adjacent tiles will also infect more tiles or if they are unclaimed tiles, just normally infect.
 	
 	row - the row value inputted by a player
 	col - the column value inputted by a player
@@ -185,7 +185,7 @@ Expand(int row,int col,int go,int R[],int B[],int S[],int T[],int *rSize,int *bS
 }
 
 /*
-	This function updates the game state and handles the tilespread
+	This function updates the game state and waits for the infection to resolve before moving on in the program.
 	Precondition: grid[row][col] should be an element of either R[] or B[]
 	
 	row - the row value inputted by a player
@@ -298,7 +298,7 @@ NextPlayerMove(int row,int col,int *good,int *go,int *start,int *val,int *over,i
 }
 
 /*
-	This function displays the board state
+	This function prints out the board given the empty grid and the tiles claimed by R and B.
 	
 	R[] - the array of tiles claimed by Player R
 	B[] - the array of tiles claimed by Player B
@@ -417,10 +417,13 @@ void
 MenuDisplay(int *exitProgram,int *over){
 	int temp = 0; // temporary value that holds input
 	printf("--- THE AMAZING DIGITAL INFECTION GAME ---\n");
-	printf("Hello there, this is THE AMAZING DIGITAL INFECTION GAME!\n");
-	printf("The rules are simple, two players must place an initial\n
-		tile on the board and players can only place tiles ON THEIR\n
-		tiles/, last man standing WINS");
+	printf("Hello there, this is THE AMAZING DIGITAL INFECTION GAME! A two-player board game where the goal of players is to capture as much tiles as possible in 20 turns!\n\nHow to Play:\n");
+	printf("1.) Each player places 1 tile anywhere on the board before the game starts.\n");
+	printf("2.) Once the game starts, players may only place on tiles they already own.\n");
+	printf("3.) Tiles placed upon will explode and infect 3 adjacent tiles from the original.\n");
+	printf("4.) The infection can keep going as long as the tiles hit are already infected.\n\n");
+	printf("A player wins if they have more tiles than the other or if they have completely dominated the board.\n");
+	printf("------------------------------------------\n");
 	printf("[1] - Play Game\n");
 	printf("[2] - Exit Program\n");
 	do{

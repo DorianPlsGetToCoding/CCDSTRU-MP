@@ -82,7 +82,10 @@ add(int key, int aData[], int * pElem){
 }
 
 /* 
-	This is only here for testing purposes
+	This function prints all the elements of an array, this function was used for testing purposes.
+	
+	A[] - the array to be printed out
+	pElem - the amount of elements in A[]
 */
 void
 PrintArray(int A[],int pElem){
@@ -93,7 +96,7 @@ PrintArray(int A[],int pElem){
 }
 
 /*
-	This function empties an array (removes all values)
+	This function removes all values of an array, making it empty.
 	
 	aData[] - the array removed from
 	*pElem - the number of elements in aData[]
