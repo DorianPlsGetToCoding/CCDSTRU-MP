@@ -345,7 +345,7 @@ GameState(int rSize,int bSize,int val,int start,int *over){
 			2. 20 or more turns have passed
 			3. the game is ongoing and only R[] or B[] tiles remain
 	*/
-	if(F||val>=20||!(start&&domination)) *over = 1;	
+	if(F||val>=20||(!start&&domination)) *over = 1;	
 }
 
 /*
