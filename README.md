@@ -1,4 +1,4 @@
-THE AMAZING DIGITAL INFECTION GAME\n
+THE AMAZING DIGITAL INFECTION GAME<br>
 A game where two players R and B have to occupy as much of a 3x3 grid as possible to win!\n
 How to play:\n
 1.) Each player places down a tile anywhere on the board (turn 0). They may place their tile in the same position as another player's.\n
